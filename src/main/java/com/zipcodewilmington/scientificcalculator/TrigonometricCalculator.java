@@ -1,19 +1,14 @@
 package com.zipcodewilmington.scientificcalculator;
 
-/**
- * Handles trigonometric calculations (sine, cosine, tangent, and their inverses),
- * as well as unit mode switching between Degrees and Radians.
- */
 public class TrigonometricCalculator {
     private double displayValue;
-    private boolean isDegreeMode; // true = degrees, false = radians
+    private boolean isDegreeMode; 
 
     public TrigonometricCalculator() {
         this.displayValue = 0.0;
-        this.isDegreeMode = true; // default to degrees
+        this.isDegreeMode = true; 
     }
 
-    // --- Getter & Setter ---
     public double getDisplayValue() {
         return displayValue;
     }
@@ -26,9 +21,9 @@ public class TrigonometricCalculator {
         return isDegreeMode ? "Degrees" : "Radians";
     }
 
-    // --- Switch Units Mode ---
+
     public void switchUnitsMode() {
-        isDegreeMode = !isDegreeMode; // toggle between true and false
+        isDegreeMode = !isDegreeMode; 
     }
 
     public void switchUnitsMode(String mode) {
@@ -41,7 +36,7 @@ public class TrigonometricCalculator {
         }
     }
 
-    // --- Utility for conversion ---
+
     private double toRadians(double value) {
         return isDegreeMode ? Math.toRadians(value) : value;
     }
@@ -50,7 +45,7 @@ public class TrigonometricCalculator {
         return isDegreeMode ? value : Math.toDegrees(value);
     }
 
-    // --- Trigonometric Functions ---
+   
     public void sine() {
         displayValue = Math.sin(toRadians(displayValue));
     }
@@ -63,7 +58,7 @@ public class TrigonometricCalculator {
         displayValue = Math.tan(toRadians(displayValue));
     }
 
-    // --- Inverse Trig Functions ---
+  
     public void inverseSine() {
         if (displayValue < -1 || displayValue > 1) {
             displayValue = Double.NaN; // undefined

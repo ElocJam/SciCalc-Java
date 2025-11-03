@@ -4,9 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- * Unit tests for ArithmeticCalculator (JUnit 4)
- */
+
 
 public class ArithmeticCalculatorTest {
 

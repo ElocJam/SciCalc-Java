@@ -1,66 +1,96 @@
 package com.zipcodewilmington.scientificcalculator;
 
 public class ArithmeticCalculator {
-    public double getDisplayValue() {
-    return displayValue;
+    private Display display;
+
+    public ArithmeticCalculator(Display display) {
+        this.display = display;
     }
-    
-    private double displayValue;
+
     public ArithmeticCalculator() {
-        this.displayValue = 0;
+        this.display = new Display();
     }
-    public ArithmeticCalculator(double startingValue) {
-        this.displayValue = startingValue;
+
+    public double getDisplayValue() {
+        return display.getDisplayValue();
     }
+
     public void setDisplayValue(double value) {
-        this.displayValue = value;
+        display.setDisplayValue(value);
     }
-     public void add(double value) {
-        displayValue += value;
+
+    public void add(double value) {
+        if (!display.isError()) {
+            display.setDisplayValue(display.getDisplayValue() + value);
+        }
     }
+
     public void subtract(double value) {
-        displayValue -= value;
+        if (!display.isError()) {
+            display.setDisplayValue(display.getDisplayValue() - value);
+        }
     }
+
     public void multiply(double value) {
-        displayValue *= value;
+        if (!display.isError()) {
+            display.setDisplayValue(display.getDisplayValue() * value);
+        }
     }
+
     public void divide(double value) {
+        if (display.isError()) {
+            return;
+        }
         if (value == 0) {
-            System.out.println("Error: Cannot divide by zero.");
-            displayValue = Double.NaN; // sets display to "Err" (NaN)
+            display.setError();
         } else {
-            displayValue /= value;
+            display.setDisplayValue(display.getDisplayValue() / value);
         }
     }
 
-     public void square() {
-        displayValue = Math.pow(displayValue, 2);
+    public void square() {
+        if (!display.isError()) {
+            display.setDisplayValue(Math.pow(display.getDisplayValue(), 2));
+        }
     }
+
     public void squareRoot() {
-        if (displayValue < 0) {
-            System.out.println("Error: Cannot take square root of a negative number.");
-            displayValue = Double.NaN;
+        if (display.isError()) {
+            return;
+        }
+        double current = display.getDisplayValue();
+        if (current < 0) {
+            display.setError();
         } else {
-            displayValue = Math.sqrt(displayValue);
+            display.setDisplayValue(Math.sqrt(current));
         }
     }
-    public void exponent(double exponentValue) {
-        displayValue = Math.pow(displayValue, exponentValue);
-    }
-    public void inverse() {
-        if (displayValue == 0) {
-            System.out.println("Error: Cannot find inverse of zero.");
-            displayValue = Double.NaN;
-        } else {
-            displayValue = 1 / displayValue;
-        }
 
+    public void exponent(double exponentValue) {
+        if (!display.isError()) {
+            display.setDisplayValue(Math.pow(display.getDisplayValue(), exponentValue));
+        }
     }
+
+    public void inverse() {
+        if (display.isError()) {
+            return;
+        }
+        double current = display.getDisplayValue();
+        if (current == 0) {
+            display.setError();
+        } else {
+            display.setDisplayValue(1.0 / current);
+        }
+    }
+
     public void invertSign() {
-        displayValue = -displayValue;
+        if (!display.isError()) {
+            display.setDisplayValue(-display.getDisplayValue());
+        }
     }
+
     public void clear() {
-        displayValue = 0.0;
+        display.clear();
     }
 }
-

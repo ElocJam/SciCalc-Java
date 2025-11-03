@@ -1,29 +1,32 @@
 package com.zipcodewilmington.scientificcalculator;
 
 public class TrigonometricCalculator {
-    private double displayValue;
-    private boolean isDegreeMode; 
+    private final Display display;
+    private boolean isDegreeMode;
+
+    public TrigonometricCalculator(Display display) {
+        this.display = display;
+        this.isDegreeMode = true;
+    }
 
     public TrigonometricCalculator() {
-        this.displayValue = 0.0;
-        this.isDegreeMode = true; 
+        this(new Display());
     }
 
     public double getDisplayValue() {
-        return displayValue;
+        return display.getDisplayValue();
     }
 
-    public void setDisplayValue(double displayValue) {
-        this.displayValue = displayValue;
+    public void setDisplayValue(double value) {
+        display.setDisplayValue(value);
     }
 
     public String getUnitsMode() {
         return isDegreeMode ? "Degrees" : "Radians";
     }
 
-
     public void switchUnitsMode() {
-        isDegreeMode = !isDegreeMode; 
+        isDegreeMode = !isDegreeMode;
     }
 
     public void switchUnitsMode(String mode) {
@@ -36,49 +39,54 @@ public class TrigonometricCalculator {
         }
     }
 
-
     private double toRadians(double value) {
         return isDegreeMode ? Math.toRadians(value) : value;
     }
-
-    private double toDegrees(double value) {
-        return isDegreeMode ? value : Math.toDegrees(value);
-    }
-
-   
+    
     public void sine() {
-        displayValue = Math.sin(toRadians(displayValue));
+        if (!display.isError()) {
+            display.setDisplayValue(Math.sin(toRadians(display.getDisplayValue())));
+        }
     }
 
     public void cosine() {
-        displayValue = Math.cos(toRadians(displayValue));
+        if (!display.isError()) {
+            display.setDisplayValue(Math.cos(toRadians(display.getDisplayValue())));
+        }
     }
 
     public void tangent() {
-        displayValue = Math.tan(toRadians(displayValue));
+        if (!display.isError()) {
+            display.setDisplayValue(Math.tan(toRadians(display.getDisplayValue())));
+        }
     }
 
-  
     public void inverseSine() {
-        if (displayValue < -1 || displayValue > 1) {
-            displayValue = Double.NaN; // undefined
+        if (display.isError()) return;
+        double current = display.getDisplayValue();
+        if (current < -1 || current > 1) {
+            display.setError();
         } else {
-            double result = Math.asin(displayValue);
-            displayValue = isDegreeMode ? Math.toDegrees(result) : result;
+            double result = Math.asin(current);
+            display.setDisplayValue(isDegreeMode ? Math.toDegrees(result) : result);
         }
     }
 
     public void inverseCosine() {
-        if (displayValue < -1 || displayValue > 1) {
-            displayValue = Double.NaN;
+        if (display.isError()) return;
+        double current = display.getDisplayValue();
+        if (current < -1 || current > 1) {
+            display.setError();
         } else {
-            double result = Math.acos(displayValue);
-            displayValue = isDegreeMode ? Math.toDegrees(result) : result;
+            double result = Math.acos(current);
+            display.setDisplayValue(isDegreeMode ? Math.toDegrees(result) : result);
         }
     }
 
     public void inverseTangent() {
-        double result = Math.atan(displayValue);
-        displayValue = isDegreeMode ? Math.toDegrees(result) : result;
+        if (!display.isError()) {
+            double result = Math.atan(display.getDisplayValue());
+            display.setDisplayValue(isDegreeMode ? Math.toDegrees(result) : result);
+        }
     }
 }

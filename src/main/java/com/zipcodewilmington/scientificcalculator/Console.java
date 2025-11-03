@@ -16,10 +16,11 @@ public class Console {
     }
 
     public static String getStringInput(String prompt) {
-        Scanner scanner = new Scanner(System.in);
-        println(prompt);
-        String userInput = scanner.nextLine();
-        return userInput;
+        try (Scanner scanner = new Scanner(System.in)) {
+            println(prompt);
+            String userInput = scanner.nextLine();
+            return userInput;
+        }
     }
 
     public static Integer getIntegerInput(String prompt) {

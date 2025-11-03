@@ -2,9 +2,6 @@ package com.zipcodewilmington.scientificcalculator;
 
 import java.util.Scanner;
 
-/**
- * Created by leon on 2/9/18.
- */
 public class Console {
 
     public static void print(String output, Object... args) {
@@ -16,10 +13,11 @@ public class Console {
     }
 
     public static String getStringInput(String prompt) {
-        Scanner scanner = new Scanner(System.in);
-        println(prompt);
-        String userInput = scanner.nextLine();
-        return userInput;
+        try (Scanner scanner = new Scanner(System.in)) {
+            println(prompt);
+            String userInput = scanner.nextLine();
+            return userInput;
+        }
     }
 
     public static Integer getIntegerInput(String prompt) {
